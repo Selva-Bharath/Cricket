@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CRICKET</title>
+  <style>
+    body {
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: #222;
+    }
+    .containor {
+      width: 300px;
+      height: 360px;
+      border: 2px solid black;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: black;
+      text-align: center;
+      padding: 10px;
+    }
+    .runs {
+      display: inline-block;
+      padding: 10px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid white;
+      color: white;
+      margin: 2px;
+      text-align: center;
+      line-height: 30px;
+    }
+
+    .runs:hover {
+      background-color: yellow;
+      cursor: pointer;
+      color: red;
+    }
+
+    .special {
+      margin-top: 10px;
+      padding: 5px 10px;
+      margin-left: 5px;
+    }
+
+    .special:hover {
+      background-color: yellow;
+      cursor: pointer;
+      color: red;
+    }
+
+    .run {
+      color: white;
+      padding: 15px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="containor">
+    <div id="runing">
+      <p class="runs" onclick="runner(6)">6</p>
+      <p class="runs" onclick="runner(4)">4</p>
+      <p class="runs" onclick="runner(3)">3</p>
+      <p class="runs" onclick="runner(2)">2</p>
+      <p class="runs" onclick="runner(1)">1</p>
+    </div>
+    <button class="special" onclick="runner('NB')">NO BALL</button>
+    <button class="special" onclick="runner('WD')">WIDE</button>
+    <button class="special" onclick="runner('W')">WICKET</button>
+    <button class="special" onclick="runner(0)">DOT</button>
+
+    <h2 class="run" id="score">RUNS = 0/0 | Overs: 0.0</h2>
+  </div>
+
+  <script>
+  let totalRuns = 0;
+  let wickets = 0;
+  let legalBalls = 0;
+
+  function runner(event) {
+    if (wickets >= 10) {
+      alert("All out! No more actions possible.");
+      return;
+    }
+
+    if (typeof event === "number") {
+      totalRuns += event;
+      legalBalls++;
+    } else if (event === "W") {
+      if (wickets < 10) {
+        wickets++;
+        legalBalls++;
+      }
+    } else if (event === "NB" || event === "WD") {
+      totalRuns += 1;
+    }
+
+    updateScore();
+  }
+
+  function updateScore() {
+    let overs = Math.floor(legalBalls / 6);
+    let balls = legalBalls % 6;
+    document.getElementById("score").innerText = `RUNS = ${totalRuns}/${wickets} | Overs: ${overs}.${balls}`;
+  }
+</script>
+</body>
+</html>
